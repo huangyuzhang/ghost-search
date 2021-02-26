@@ -1,4 +1,4 @@
-[![Min Ghost Version](https://img.shields.io/badge/Min%20Ghost%20v.-%3E%3D%202.10.0-blue.svg)](https://github.com/TryGhost/Ghost)
+[![Min Ghost Version](https://img.shields.io/badge/Min%20Ghost%20v.-%3E%3D%203.0.0-blue.svg)](https://github.com/TryGhost/Ghost)
 [![npm version](https://badge.fury.io/js/ghost-search.svg)](https://www.npmjs.com/package/ghost-search)
 
 # ghost-search
@@ -9,7 +9,11 @@ A simple but powerful search library for [Ghost Blogging Platform](https://ghost
 
 ### Step 1 - Setup Content API Client Library
 
-Get the [latest version](https://unpkg.com/@tryghost/content-api) of Ghost Content API Client Library from unpkg.com. 
+Get the [latest version](https://unpkg.com/@tryghost/content-api) of Ghost Content API Client Library from unpkg.com.
+
+```js
+<script src="https://unpkg.com/@tryghost/content-api@{version}/umd/content-api.min.js"></script>
+```
 
 Add the script before the `{{ghost_foot}}` tag. This will, most likely, be in `default.hbs`.
 
@@ -20,6 +24,7 @@ Create a directory called `js`, if there isn't already one in there, and add the
 Open `default.hbs` that is located at the root of your theme. \
 At the bottom of this file you should see `{{ghost_foot}}`. \
 Add the following code above it (after the content-api script at Step 1) and save it:
+
 ```
 <script type="text/javascript" src="{{asset "js/ghost-search.min.js"}}"></script>
 ```
@@ -39,11 +44,11 @@ Add the following code, in a `.hbs` file, where you want to show the search resu
 You will need to initialize `ghost-search` to make the search functional. \
 Add the following js code after you included `ghost-search.min.js`:
 
-```html
-<script type="text/javascript">
+```javascript
+<script>
     let ghostSearch = new GhostSearch({
         key: '22444f78447824223cefc48062', // This is just a demo key. Replace the key with a real one. See Step 3.
-        host: 'https://demo.ghost.io', // This is just a demo host. Replace the host with a real one. See Step 3.
+        url: 'https://demo.ghost.io', // This is just a demo host. Replace the demo url with a real one. See Step 3.
     })
 </script>
 ```
@@ -52,9 +57,8 @@ Add the following js code after you included `ghost-search.min.js`:
 
 Go in your Ghost's dashboard -> Integrations -> Add custom integration \
 Set a name: Haunted Themes Search \
-Get the Content API Key and replace the demo key with this one. [More details](https://docs.ghost.org/api/content/#host). \
-Get the admin domain. This will be different in some cases. [More details](https://docs.ghost.org/api/content/#key).
-
+Get the Content API Key and replace the demo key with this one. [More details](https://ghost.org/docs/api/v3/content/#key). \
+Get the admin domain. This will be different in some cases. [More details](https://ghost.org/docs/api/v3/content/#url).
 
 ## Use ghost-search from CDN
 
@@ -64,7 +68,7 @@ Get the admin domain. This will be different in some cases. [More details](https
 
 ## npm
 
-```
+```javascript
 npm install ghost-search
 ```
 
@@ -84,7 +88,7 @@ npm install ghost-search
 
 ## Default Options
 
-```
+```js
 {
     host: '',
     key: '',
@@ -129,9 +133,9 @@ npm install ghost-search
 
 ## Options
 
-### host
+### url
 
-The host that needs to be set in order for Content API to properly authenticate. [More details](https://docs.ghost.org/api/content/#host).
+The url that needs to be set in order for Content API to properly authenticate. [More details](https://docs.ghost.org/api/content/#url).
 
 ### key
 
@@ -139,9 +143,9 @@ The key that needs to be set in order for Content API to properly authenticate. 
 
 ### version
 
-The version that needs to be set in order for Content API to properly authenticate. [More details](https://docs.ghost.org/api/content/#path--version).
+The version that needs to be set in order for Content API to properly authenticate. [More details](https://ghost.org/docs/api/v3/content/#path--version).
 
-Default value: `'v2'`
+Default value: `'v3'`
 
 ### input
 
@@ -265,7 +269,7 @@ Set url with sub-path:
 
 Default value:
 
-```html
+```js
 function(result) {
     let url = [location.protocol, '//', location.host].join('');
     return '<a href="' + url + '/' + result.slug + '">' + result.title + '</a>';  
@@ -310,7 +314,8 @@ Let's try another example that will show the first 3 results and searches both t
 ```
 
 Default value:
-```
+
+```js
 {
     keys: [
         'title'
@@ -358,7 +363,7 @@ Search through a custom collection:
 
 Let's say we have a `routes.yaml` like this:
 
-```
+```yaml
 routes:
 
 collections:
@@ -381,7 +386,7 @@ taxonomies:
 
 Our `ghost-search` will become:
 
-```
+```js
 let ghostSearch = new GhostSearch({
     options: {
         keys: [
@@ -436,6 +441,9 @@ All changes should be committed to `src/` files only.
 If you have a lot of posts and set `trigger` to `load` you might get a DDOS effect because you are loading all the post everything a page loads. It would be better to just set `trigger` to `focus`.
 
 ## Changelog
+
+### 1.1.0 - 15 Nov 2019
+* Migrated to Ghost v3
 
 ### 1.0.1 - 28 Jan 2019
 * Editable limit parameter. [5](https://github.com/HauntedThemes/ghost-search/issues/5)
